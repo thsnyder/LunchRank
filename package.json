@@ -3,25 +3,34 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "next": "15.3.2"
+    "airtable": "0.12.2",
+    "chart.js": "^4.4.9",
+    "encoding": "0.1.13",
+    "framer-motion": "^12.10.4",
+    "motion": "^12.10.4",
+    "next": "13.4.19",
+    "react": "18.2.0",
+    "react-chartjs-2": "^5.3.0",
+    "react-dom": "18.2.0"
   },
   "devDependencies": {
-    "typescript": "^5",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "@tailwindcss/postcss": "^4",
-    "tailwindcss": "^4",
-    "eslint": "^9",
-    "eslint-config-next": "15.3.2",
-    "@eslint/eslintrc": "^3"
+    "@types/node": "20.11.19",
+    "@types/react": "18.2.57",
+    "@types/react-dom": "18.2.19",
+    "autoprefixer": "10.4.14",
+    "browserslist": "4.22.2",
+    "daisyui": "3.9.4",
+    "eslint": "8.56.0",
+    "eslint-config-next": "13.4.19",
+    "lightningcss": "1.23.0",
+    "postcss": "8.4.24",
+    "tailwindcss": "3.3.2",
+    "typescript": "5.3.3"
   }
 }

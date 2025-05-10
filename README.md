@@ -1,36 +1,85 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# LunchRank
+
+A web application for rating and ranking lunch restaurants, built with Next.js and Airtable.
+
+## Features
+
+- Restaurant ratings and reviews
+- User profiles with rating history
+- Restaurant analytics and statistics
+- Restaurant suggestions
+- Beautiful, responsive UI with animations
+
+## Tech Stack
+
+- Next.js 14
+- TypeScript
+- Tailwind CSS
+- DaisyUI
+- Framer Motion
+- Airtable
 
 ## Getting Started
 
-First, run the development server:
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/LunchRank.git
+cd LunchRank
+```
 
+2. Install dependencies:
+```bash
+npm install
+# or
+yarn install
+```
+
+3. Create a `.env.local` file in the root directory with your Airtable credentials:
+```
+AIRTABLE_API_KEY=your_api_key
+AIRTABLE_BASE_ID=your_base_id
+```
+
+4. Run the development server:
 ```bash
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+5. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Deployment
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+This project is configured for deployment on Vercel. To deploy:
 
-## Learn More
+1. Push your code to GitHub:
+```bash
+git add .
+git commit -m "Initial commit"
+git push origin main
+```
 
-To learn more about Next.js, take a look at the following resources:
+2. Go to [Vercel](https://vercel.com) and create a new project
+3. Import your GitHub repository
+4. Add your environment variables in the Vercel project settings
+5. Deploy!
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Environment Variables
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The following environment variables are required:
 
-## Deploy on Vercel
+- `AIRTABLE_API_KEY`: Your Airtable API key
+- `AIRTABLE_BASE_ID`: Your Airtable base ID
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Contributing
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.

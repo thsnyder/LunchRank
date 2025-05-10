@@ -1,8 +1,24 @@
 import Airtable from 'airtable'
 
-// Hardcoded Airtable configuration
-const apiKey = 'patMG8pGjwDBJMywj.99148a6b0a5a78878934b8586b864879abb77378c972057548601e9a8d058d41' // Replace with your actual API key
-const baseId = 'appuuFPfmLPhhqiYB' // Replace with your actual Base ID
+// Debug logging for environment variables
+console.log('Environment Variables Check:', {
+  hasApiKey: !!process.env.NEXT_PUBLIC_AIRTABLE_API_KEY,
+  apiKeyLength: process.env.NEXT_PUBLIC_AIRTABLE_API_KEY?.length,
+  hasBaseId: !!process.env.NEXT_PUBLIC_AIRTABLE_BASE_ID,
+  baseId: process.env.NEXT_PUBLIC_AIRTABLE_BASE_ID
+})
+
+// Initialize Airtable with environment variables
+const apiKey = process.env.NEXT_PUBLIC_AIRTABLE_API_KEY!
+const baseId = process.env.NEXT_PUBLIC_AIRTABLE_BASE_ID!
+
+if (!apiKey || !baseId) {
+  console.error('Missing environment variables:', {
+    apiKey: !!apiKey,
+    baseId: !!baseId
+  })
+  throw new Error('Missing required Airtable environment variables')
+}
 
 // Initialize Airtable
 const base = new Airtable({

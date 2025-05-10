@@ -36,8 +36,8 @@ yarn install
 
 3. Create a `.env.local` file in the root directory with your Airtable credentials:
 ```
-AIRTABLE_API_KEY=your_api_key
-AIRTABLE_BASE_ID=your_base_id
+NEXT_PUBLIC_AIRTABLE_API_KEY=your_api_key
+NEXT_PUBLIC_AIRTABLE_BASE_ID=your_base_id
 ```
 
 4. Run the development server:
@@ -69,8 +69,8 @@ git push origin main
 
 The following environment variables are required:
 
-- `AIRTABLE_API_KEY`: Your Airtable API key
-- `AIRTABLE_BASE_ID`: Your Airtable base ID
+- `NEXT_PUBLIC_AIRTABLE_API_KEY`: Your Airtable API key
+- `NEXT_PUBLIC_AIRTABLE_BASE_ID`: Your Airtable base ID
 
 ## Contributing
 

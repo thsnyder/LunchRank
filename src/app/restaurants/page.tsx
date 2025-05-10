@@ -154,11 +154,20 @@ export default function RestaurantsPage() {
 
   return (
     <div className="min-h-screen bg-base-200 p-8 relative">
-      {/* Files.com Logo in the top left */}
-      <a href="https://www.files.com" target="_blank" rel="noopener noreferrer" className="absolute top-6 left-6 z-50 flex items-center gap-2">
-        <img src="/files-logo-horizontal.svg" alt="Files.com Logo" className="h-16" />
-        <span className="sr-only">Files.com</span>
-      </a>
+      {/* Personal Signature */}
+      <motion.a 
+        href="https://tomsnyder.blog" 
+        target="_blank" 
+        rel="noopener noreferrer" 
+        className="absolute top-6 left-6 z-50 text-sm text-base-content opacity-70 hover:opacity-100 transition-opacity"
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+        whileHover={{ scale: 1.05 }}
+      >
+        <div>Made with ❤️ and ☕️</div>
+        <div>by Tom Snyder</div>
+      </motion.a>
 
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col items-center mb-12">

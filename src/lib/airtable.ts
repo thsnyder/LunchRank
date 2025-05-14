@@ -71,6 +71,7 @@ export interface Restaurant {
   averageRating: number
   ratings: Rating[]
   logo: AirtableAttachment[] | null
+  menu: string | null
 }
 
 export interface NewRestaurant {
@@ -298,7 +299,8 @@ export async function getRestaurants(): Promise<Restaurant[]> {
         priceRange: record.get('PriceRange') as string || '$$',
         averageRating: Number(record.get('AverageRating')) || 0,
         ratings: ratingsByLocation[locationName] || [],
-        logo: record.get('Logo') as AirtableAttachment[] | null
+        logo: record.get('Logo') as AirtableAttachment[] | null,
+        menu: record.get('Menu') as string || null
       }
     })
   } catch (error) {
@@ -361,7 +363,8 @@ export async function createRestaurant(restaurant: NewRestaurant): Promise<Resta
       priceRange: restaurant.priceRange || '$$',
       averageRating: 0,
       ratings: [],
-      logo: logoAttachment
+      logo: logoAttachment,
+      menu: null
     }
   } catch (error: any) {
     console.error('Error creating restaurant:', {

@@ -88,8 +88,8 @@ export default function Home() {
       {/* Personal Signature */}
       <motion.a 
         href="https://tomsnyder.blog" 
-        target="_blank" 
-        rel="noopener noreferrer" 
+            target="_blank"
+            rel="noopener noreferrer"
         className="absolute top-6 left-6 z-50 text-sm text-base-content opacity-70 hover:opacity-100 transition-opacity"
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
@@ -127,7 +127,7 @@ export default function Home() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
                 <span>Rating submitted successfully! Redirecting to restaurants page... 🚀</span>
-              </div>
+        </div>
             )}
 
             <form onSubmit={handleSubmit} className="space-y-6">
@@ -154,7 +154,7 @@ export default function Home() {
                       initial={{ opacity: 0, scale: 0.8 }}
                       animate={{ opacity: 1, scale: 1 }}
                       className="w-16 h-16 rounded-full overflow-hidden"
-                    >
+        >
                       <img
                         src={getProfileImage(selectedUser) || ''}
                         alt={`${selectedUser.name}'s profile`}

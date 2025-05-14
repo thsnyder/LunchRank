@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import type { User, Restaurant, Rating } from '@/lib/airtable'
+import Link from 'next/link'
 
 interface UserAnalyticsProps {
   users: User[]
@@ -62,7 +63,8 @@ export default function UserAnalytics({ users, restaurants }: UserAnalyticsProps
     if (user.profilePic && user.profilePic.length > 0) {
       return user.profilePic[0].url
     }
-    return `https://cataas.com/cat?random=${Math.random()}`
+    // Use a deterministic fallback based on the user's name
+    return `https://cataas.com/cat/says/${encodeURIComponent(user.name)}?size=200&color=white&background=random`
   }
 
   return (
@@ -70,73 +72,74 @@ export default function UserAnalytics({ users, restaurants }: UserAnalyticsProps
       {users.map((user, index) => {
         const stats = calculateUserStats(user.name)
         return (
-          <motion.div
-            key={user.name}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.1 }}
-            className="card bg-base-200"
-          >
-            <div className="card-body">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="w-16 h-16 rounded-full overflow-hidden">
-                  <img
-                    src={getProfileImage(user)}
-                    alt={`${user.name}'s profile`}
-                    className="w-full h-full object-cover"
-                  />
+          <Link href={`/profile/${user.name}`} key={user.name}>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1 }}
+              className="card bg-base-200 hover:bg-base-300 transition-colors cursor-pointer"
+            >
+              <div className="card-body">
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="w-16 h-16 rounded-full overflow-hidden">
+                    <img
+                      src={getProfileImage(user)}
+                      alt={`${user.name}'s profile`}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold text-primary">{user.name}</h3>
+                    <p className="text-base-content opacity-70">
+                      {stats.totalRatings} ratings submitted
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="text-xl font-bold text-primary">{user.name}</h3>
-                  <p className="text-base-content opacity-70">
-                    {stats.totalRatings} ratings submitted
-                  </p>
-                </div>
-              </div>
 
-              <div className="grid grid-cols-2 gap-4">
-                <div className="stat bg-base-100 rounded-box">
-                  <div className="stat-title">Average Rating</div>
-                  <div className="stat-value text-primary">
-                    {stats.averageRating.toFixed(1)}
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="stat bg-base-100 rounded-box">
+                    <div className="stat-title">Average Rating</div>
+                    <div className="stat-value text-primary">
+                      {stats.averageRating.toFixed(1)}
+                    </div>
+                  </div>
+                  <div className="stat bg-base-100 rounded-box">
+                    <div className="stat-title">Favorite Restaurant</div>
+                    <div className="stat-value text-primary text-lg">
+                      {stats.favoriteRestaurant.name}
+                    </div>
+                    <div className="stat-desc">
+                      Rated {stats.favoriteRestaurant.rating.toFixed(1)} ⭐
+                    </div>
                   </div>
                 </div>
-                <div className="stat bg-base-100 rounded-box">
-                  <div className="stat-title">Favorite Restaurant</div>
-                  <div className="stat-value text-primary text-lg">
-                    {stats.favoriteRestaurant.name}
-                  </div>
-                  <div className="stat-desc">
-                    Rated {stats.favoriteRestaurant.rating.toFixed(1)} ⭐
-                  </div>
-                </div>
-              </div>
 
-              <div className="mt-4">
-                <h4 className="text-lg font-semibold mb-2">Rating Distribution</h4>
-                <div className="flex gap-2">
-                  {[1, 2, 3, 4, 5].map((rating) => (
-                    <div key={rating} className="flex-1">
-                      <div className="text-center text-sm mb-1">{rating} ⭐</div>
-                      <div className="h-24 bg-base-100 rounded-lg relative">
-                        <motion.div
-                          initial={{ height: 0 }}
-                          animate={{ 
-                            height: `${((stats.ratingDistribution[rating] || 0) / stats.totalRatings) * 100}%` 
-                          }}
-                          transition={{ delay: 0.5 + index * 0.1 }}
-                          className="absolute bottom-0 w-full bg-primary rounded-b-lg"
-                        />
-                        <div className="absolute inset-0 flex items-center justify-center text-sm font-semibold">
-                          {stats.ratingDistribution[rating] || 0}
+                <div className="mt-4">
+                  <h4 className="text-lg font-semibold mb-2">Rating Distribution</h4>
+                  <div className="flex gap-2">
+                    {[1, 2, 3, 4, 5].map((rating) => (
+                      <div key={rating} className="flex-1">
+                        <div className="text-center text-sm mb-1">{rating} ⭐</div>
+                        <div className="h-24 bg-base-100 rounded-lg relative">
+                          <motion.div
+                            initial={{ height: 0 }}
+                            animate={{ 
+                              height: `${((stats.ratingDistribution[rating] || 0) / stats.totalRatings) * 100}%` 
+                            }}
+                            transition={{ delay: 0.5 + index * 0.1 }}
+                            className="absolute bottom-0 w-full bg-primary rounded-b-lg"
+                          />
+                          <div className="absolute inset-0 flex items-center justify-center text-sm font-semibold">
+                            {stats.ratingDistribution[rating] || 0}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
-          </motion.div>
+            </motion.div>
+          </Link>
         )
       })}
     </div>

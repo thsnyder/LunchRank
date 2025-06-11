@@ -23,10 +23,8 @@ export default function RestaurantsPage() {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false)
   const [newRestaurant, setNewRestaurant] = useState<NewRestaurant>({
     name: '',
-    address: '',
-    cuisine: '',
     cuisineType: '',
-    priceRange: '$$'
+    menu: '',
   })
   const [logoFile, setLogoFile] = useState<File | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -88,10 +86,8 @@ export default function RestaurantsPage() {
     try {
       const restaurantData: NewRestaurant = {
         name: newRestaurant.name,
-        address: '',
-        cuisine: '',
-        cuisineType: '',
-        priceRange: '$$',
+        cuisineType: newRestaurant.cuisineType,
+        menu: newRestaurant.menu || undefined,
         logo: logoFile || undefined
       }
 
@@ -100,10 +96,8 @@ export default function RestaurantsPage() {
       setIsAddModalOpen(false)
       setNewRestaurant({
         name: '',
-        address: '',
-        cuisine: '',
         cuisineType: '',
-        priceRange: '$$'
+        menu: '',
       })
       setLogoFile(null)
     } catch (err) {
@@ -650,63 +644,51 @@ export default function RestaurantsPage() {
                   />
                 </div>
                 <div className="form-control">
-                  <label htmlFor="address" className="label">
-                    <span className="label-text">Address</span>
-                  </label>
-                  <input
-                    type="text"
-                    id="address"
-                    name="address"
-                    value={newRestaurant.address}
-                    onChange={(e) => setNewRestaurant({ ...newRestaurant, address: e.target.value })}
-                    className="input input-bordered input-primary w-full"
-                    required
-                  />
-                </div>
-                <div className="form-control">
-                  <label htmlFor="cuisine" className="label">
-                    <span className="label-text">Cuisine</span>
-                  </label>
-                  <input
-                    type="text"
-                    id="cuisine"
-                    name="cuisine"
-                    value={newRestaurant.cuisine}
-                    onChange={(e) => setNewRestaurant({ ...newRestaurant, cuisine: e.target.value })}
-                    className="input input-bordered input-primary w-full"
-                    required
-                  />
-                </div>
-                <div className="form-control">
                   <label htmlFor="cuisineType" className="label">
                     <span className="label-text">Cuisine Type</span>
                   </label>
-                  <input
-                    type="text"
+                  <select
                     id="cuisineType"
                     name="cuisineType"
                     value={newRestaurant.cuisineType}
                     onChange={(e) => setNewRestaurant({ ...newRestaurant, cuisineType: e.target.value })}
-                    className="input input-bordered input-primary w-full"
-                    required
-                  />
-                </div>
-                <div className="form-control">
-                  <label htmlFor="priceRange" className="label">
-                    <span className="label-text">Price Range</span>
-                  </label>
-                  <select
-                    id="priceRange"
-                    name="priceRange"
-                    value={newRestaurant.priceRange}
-                    onChange={(e) => setNewRestaurant({ ...newRestaurant, priceRange: e.target.value })}
                     className="select select-bordered select-primary w-full"
                     required
                   >
-                    <option value="$$">$$</option>
-                    <option value="$$$">$$$</option>
-                    <option value="$$$$">$$$$</option>
+                    <option value="">Select a cuisine type</option>
+                    <option value="American">American</option>
+                    <option value="Italian">Italian</option>
+                    <option value="Mexican">Mexican</option>
+                    <option value="Chinese">Chinese</option>
+                    <option value="Japanese">Japanese</option>
+                    <option value="Thai">Thai</option>
+                    <option value="Indian">Indian</option>
+                    <option value="Mediterranean">Mediterranean</option>
+                    <option value="Vietnamese">Vietnamese</option>
+                    <option value="Korean">Korean</option>
+                    <option value="French">French</option>
+                    <option value="Greek">Greek</option>
+                    <option value="Middle Eastern">Middle Eastern</option>
+                    <option value="Caribbean">Caribbean</option>
+                    <option value="African">African</option>
+                    <option value="Latin American">Latin American</option>
+                    <option value="Fusion">Fusion</option>
+                    <option value="Other">Other</option>
                   </select>
+                </div>
+                <div className="form-control">
+                  <label htmlFor="menu" className="label">
+                    <span className="label-text">Menu URL</span>
+                  </label>
+                  <input
+                    type="url"
+                    id="menu"
+                    name="menu"
+                    value={newRestaurant.menu}
+                    onChange={(e) => setNewRestaurant({ ...newRestaurant, menu: e.target.value })}
+                    className="input input-bordered input-primary w-full"
+                    placeholder="https://..."
+                  />
                 </div>
                 <div className="form-control">
                   <label htmlFor="logo" className="label">

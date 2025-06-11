@@ -76,10 +76,8 @@ export interface Restaurant {
 
 export interface NewRestaurant {
   name: string
-  address: string
-  cuisine: string
   cuisineType: string
-  priceRange: string
+  menu?: string
   logo?: File
 }
 
@@ -311,60 +309,63 @@ export async function getRestaurants(): Promise<Restaurant[]> {
 
 export async function createRestaurant(restaurant: NewRestaurant): Promise<Restaurant> {
   try {
-    // First, upload the logo if provided
-    let logoAttachment = null
-    if (restaurant.logo) {
-      const formData = new FormData()
-      formData.append('file', restaurant.logo)
-      
-      // Upload to Airtable
-      const uploadResponse = await fetch(`https://api.airtable.com/v0/${baseId}/LunchLocations/attachments`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${apiKey}`,
-          'Content-Type': 'multipart/form-data',
-        },
-        body: formData
-      })
-      
-      if (!uploadResponse.ok) {
-        throw new Error('Failed to upload logo')
-      }
-      
-      const uploadData = await uploadResponse.json()
-      logoAttachment = [{
-        id: uploadData.id,
-        url: uploadData.url,
-        filename: restaurant.logo.name,
-        size: restaurant.logo.size,
-        type: restaurant.logo.type
-      }]
-    }
-
     // Create the restaurant record
     const record = await base('LunchLocations').create({
       LocationName: restaurant.name,
-      Address: restaurant.address || '',
-      Cuisine: restaurant.cuisine || '',
       CuisineType: restaurant.cuisineType || 'Unknown',
-      PriceRange: restaurant.priceRange || '$$',
-      Logo: logoAttachment || [],
-      AverageRating: 0,
-      RatingCount: 0
+      Menu: restaurant.menu || null
     })
+
+    // If there's a logo, try to upload it
+    if (restaurant.logo) {
+      try {
+        // Create a FormData object
+        const formData = new FormData()
+        formData.append('file', restaurant.logo)
+
+        // Upload the file to Airtable
+        const uploadResponse = await fetch(`https://api.airtable.com/v0/${baseId}/LunchLocations/${record.id}/attachments`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${apiKey}`
+          },
+          body: formData
+        })
+
+        if (!uploadResponse.ok) {
+          throw new Error('Failed to upload logo')
+        }
+
+        const uploadData = await uploadResponse.json()
+        
+        // Update the record with the attachment
+        await base('LunchLocations').update(record.id, {
+          Logo: [{
+            id: uploadData.id,
+            url: uploadData.url,
+            filename: restaurant.logo.name,
+            size: restaurant.logo.size,
+            type: restaurant.logo.type
+          }]
+        })
+      } catch (error) {
+        console.error('Error uploading logo:', error)
+        // Continue without the logo if upload fails
+      }
+    }
 
     // Return the created restaurant
     return {
       id: record.id,
       name: restaurant.name,
-      address: restaurant.address || '',
-      cuisine: restaurant.cuisine || '',
+      address: '',
+      cuisine: 'Unknown',
       cuisineType: restaurant.cuisineType || 'Unknown',
-      priceRange: restaurant.priceRange || '$$',
+      priceRange: '$$',
       averageRating: 0,
       ratings: [],
-      logo: logoAttachment,
-      menu: null
+      logo: null, // We'll get the updated logo in the next fetch
+      menu: restaurant.menu || null
     }
   } catch (error: any) {
     console.error('Error creating restaurant:', {
